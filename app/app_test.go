@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/spf13/viper"
 
-	log "ticket-reservation/log"
+	"ticket-reservation/log"
 )
 
 func getLoggerForTesting() (log.Logger, error) {

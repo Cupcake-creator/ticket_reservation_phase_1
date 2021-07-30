@@ -16,7 +16,12 @@ func (ctx *Context) Register(params RegisterParams) (*RegisterResult, error) {
 		return nil, err
 	}
 
-	// TODO
+	userID, err := ctx.DB.CreateUser(params.Username)
+	if err != nil {
+		return nil, err
+	}
 
-	return nil, nil // FIXME
+	return &RegisterResult{
+		ID: userID,
+	}, nil
 }
