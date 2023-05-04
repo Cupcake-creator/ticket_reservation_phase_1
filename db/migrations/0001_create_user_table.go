@@ -15,6 +15,7 @@ var createUserTableMigration = &Migration{
 			username VARCHAR(255) NOT NULL,
 			password VARCHAR(255) NOT NULL,
 			email VARCHAR(255) NOT NULL,
+			role VARCHAR(255) NOT NULL DEFAULT 'admin',
 			active BOOLEAN NOT NULL DEFAULT TRUE,
 			created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 			updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
