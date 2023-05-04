@@ -47,7 +47,20 @@ func Register(ctx *app.Context, w http.ResponseWriter, r *http.Request) error {
 
 	resData, err := ctx.Register(input)
 	if err != nil {
-		return err
+		if err.Error() == "User already exists" {
+			return &customError.UserError{
+				Code:           customError.DuplicateUsername,
+				Message:        err.Error(),
+				HTTPStatusCode: http.StatusAccepted,
+			}
+		} else {
+			return &customError.UserError{
+				Code:           customError.UnknownError,
+				Message:        err.Error(),
+				HTTPStatusCode: http.StatusBadRequest,
+			}
+		}
+
 	}
 
 	data, err := json.Marshal(&response.Response{

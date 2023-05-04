@@ -10,11 +10,11 @@ import (
 
 type mockDB struct {
 	db.DB
-	createUser func(username string) (int64, error)
+	createUser func(username, password, email string) (int64, error)
 }
 
-func (mockdb *mockDB) CreateUser(username string) (int64, error) {
-	return mockdb.createUser(username)
+func (mockdb *mockDB) CreateUser(username, password, email string) (int64, error) {
+	return mockdb.createUser(username, password, email)
 }
 
 func TestRegister(t *testing.T) {
@@ -29,7 +29,7 @@ func TestRegister(t *testing.T) {
 		Logger: logger,
 
 		DB: &mockDB{
-			createUser: func(username string) (int64, error) {
+			createUser: func(username, password, email string) (int64, error) {
 				return userID, nil
 			},
 		},

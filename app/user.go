@@ -2,6 +2,8 @@ package app
 
 type RegisterParams struct {
 	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required"`
 }
 
 type RegisterResult struct {
@@ -16,7 +18,13 @@ func (ctx *Context) Register(params RegisterParams) (*RegisterResult, error) {
 		return nil, err
 	}
 
-	userID, err := ctx.DB.CreateUser(params.Username)
+	// Check if the user is already registered then create new user
+	isExistUser, err := ctx.DB.IsExistUser(params.Username)
+	if err != nil && isExistUser {
+		return nil, err
+	}
+
+	userID, err := ctx.DB.CreateUser(params.Username, params.Password, params.Email)
 	if err != nil {
 		return nil, err
 	}
